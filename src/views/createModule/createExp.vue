@@ -12,8 +12,17 @@
         <el-button type="primary" @click="openOtreeWebsites">还没有，创建一个</el-button>
       </el-form-item>
     </el-form>
-
-    <input type="file" ref="fileInput" style="display: none" accept=".otree" @change="handleFileUpload">
+<!--     <el-upload
+        class="upload-demo"
+        action="http://localhost:28080/api/upload"
+        :before-upload="beforeUpload"
+        :on-success="handleSuccess"
+        :on-error="handleError"
+        :headers="uploadHeaders"
+      >
+        <el-button type="primary">点击上传</el-button>
+      </el-upload> -->
+    <input type="file" ref="fileInput" style="display: none" accept=".otreezip" @change="handleFileUpload">
     <el-dialog title="请选择otree文件" :visible.sync="dialogVisible">
       <el-button type="primary" @click="chooseFile">选择文件</el-button>
     </el-dialog>
@@ -35,8 +44,27 @@ export default {
       this.$refs.fileInput.click();
     },
     handleFileUpload(event) {
+      const axios = require('axios');
       const file = event.target.files[0];
-      // 处理文件上传逻辑
+      
+      let formData = new FormData();
+      formData.append('file', file);
+
+      axios.post("http://43.142.90.238:28080/api/upload", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': localStorage.getItem('ACCESS_TOKEN')
+        }
+      })
+      .then((response) => {
+        console.log(response.data);
+        this.$message.success("上传成功")
+      })
+      .catch((error) => {
+        this.$message.error(error)
+        console.error(error);
+      });
+
       console.log('上传的文件:', file);
       this.dialogVisible = false;
     },

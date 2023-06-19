@@ -3,8 +3,8 @@
       <h2 class="create-title">我创建的实验</h2>
       <el-table :data="experiments" border class="experiment-table">
         <el-table-column prop="id" label="实验ID"></el-table-column>
-        <el-table-column prop="name" label="实验名称"></el-table-column>
-        <el-table-column prop="createdAt" label="创建时间"></el-table-column>
+        <el-table-column prop="title" label="实验名称"></el-table-column>
+        <el-table-column prop="create_time" label="创建时间"></el-table-column>
         <el-table-column label="管理实验">
           <template slot-scope="scope">
             <el-button type="text" @click="manageExperiment(scope.row)">管理实验</el-button>
@@ -16,20 +16,25 @@
   </template>
   
   <script>
+  import { getExpRec } from '@/api/Exp';
+  import { formatTimestamps } from '@/util/timeconvert';
+  import { revertTimestamps } from '@/util/timeconvert';
   export default {
     data() {
       return {
-        experiments: [
-          { id: 1, name: '实验1', createdAt: '2023-06-18' },
-          { id: 2, name: '实验2', createdAt: '2023-06-19' },
-          { id: 3, name: '实验3', createdAt: '2023-06-20' }
-        ]
+        experiments: []
       };
+    },
+    mounted(){
+      getExpRec().then((_)=>{
+        this.experiments=formatTimestamps(_.data)
+      })
     },
     methods: {
       manageExperiment(experiment) {
         // 导航到 manage.vue，并传递实验ID
-        this.$router.push({ name: 'manage', params: { id: experiment.id } });
+        this.experiments=revertTimestamps(this.experiments)
+        this.$router.push({ name: 'manage', query: experiment });
       },
       goToCreateExperiment() {
         // 导航到 createExp.vue

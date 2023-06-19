@@ -4,7 +4,7 @@ import {getAccessToken} from '@/util/auth';
 
 const service = axios.create({
 
-/* baseURL: 'http://localhost:28080', */
+    /* baseURL: 'http://localhost:28080', */
   
      baseURL: 'http://43.142.90.238:28080', 
   //baseURL: 'https://mock.apifox.cn/m1/2428381-0-default/admin-api',

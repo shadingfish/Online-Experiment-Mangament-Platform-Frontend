@@ -3,7 +3,7 @@
     <h2>管理实验</h2>
     <div class="button-group">
       <el-button type="primary" class="manage-button">一键分发</el-button>
-      <el-button type="primary" class="manage-button" @click="startExperiment">开始实验</el-button>
+      <el-button type="primary" class="manage-button" :disabled="runningExp" @click="startExperiment">开始实验</el-button>
       <el-button type="primary" class="manage-button" @click="openNotificationDialog">群发通知</el-button>
       <el-button type="primary" class="manage-button" @click="openAddParticipantDialog">新增被试</el-button>
       <el-button type="primary" class="manage-button" @click="openImportParticipantsDialog">导入被试</el-button>
@@ -48,9 +48,14 @@
 </template>
 
 <script>
+import { removeExpRec } from '@/api/Exp';
+import { CLInterface } from '@/api/cmdline';
+import { revertTimestamps } from '@/util/timeconvert';
   export default {
     data() {
       return {
+        runningExp:false,
+        experiment:[],
         dialogVisible: false,
         dialogTitle: "",
         dialogType: "",
@@ -61,8 +66,26 @@
         newObserverId: ""
       };
     },
+    created() {
+      this.experiment=this.$route.query
+    },
     methods: {
       startExperiment() {
+        CLInterface("./test.sh start "+this.experiment.directory).then((_)=>{
+          if(_ === "启动服务失败"){
+            this.$message.error(_)
+          }
+          else{
+            this.experimentLink=_
+            this.runningExp=true
+            /* this.experimentLink="https://www.baidu.com" */
+            setTimeout(() => {
+            this.dialogVisible = true;
+            this.dialogType = "startExperiment";
+            this.dialogTitle = "开始实验";
+        }, 2000);
+          }
+        })
         // Call the backend to start the experiment
         // You can replace the placeholder with the actual backend API call
         // Update the experimentLink variable with the returned experiment link
@@ -80,12 +103,7 @@
 
         // Placeholder code for demonstration
         // Simulate a delay before obtaining the experiment link
-        setTimeout(() => {
-          this.experimentLink = "http://example.com/experiment";
-          this.dialogVisible = true;
-          this.dialogType = "startExperiment";
-          this.dialogTitle = "开始实验";
-        }, 2000);
+
       },
       openNotificationDialog() {
         this.dialogVisible = true;
@@ -131,13 +149,22 @@
         this.closeDialog();
       },
       openDeleteExperimentConfirmation() {
+
         this.dialogVisible = true;
         this.dialogType = "deleteExperimentConfirmation";
         this.dialogTitle = "删除实验";
       },
       deleteExperiment() {
-        // Delete the experiment and all files
-        this.closeDialog();
+        CLInterface("rm -r "+this.experiment.directory)
+        console.log(this.experiment)
+        removeExpRec(this.experiment).then((_)=>{
+          if(_.code === 200){
+            this.$message.success("删除成功")
+            this.closeDialog();
+            this.$router.push("/experiment/createModule/createMain")
+          }
+        })
+
       },
       closeDialog() {
         this.dialogVisible = false;

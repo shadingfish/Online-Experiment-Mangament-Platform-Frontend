@@ -22,8 +22,6 @@
           <el-table-column fixed="right" label="操作">
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="do_exec(scope.$index)">运行</el-button>
-<!--               aaaa
-              bbbb -->
               <el-button type="text" size="small" @click="do_remove(scope.$index)">删除</el-button>
             </template>
           </el-table-column>
