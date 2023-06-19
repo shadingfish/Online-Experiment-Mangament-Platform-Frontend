@@ -95,10 +95,7 @@ const routes = [
   {
     path: '/Exp',
     component: Layout,
-    children:[{
-      path: 'ExpModule/PythonMain',
-      component:() => import( '../views/ExpModule/PythonMain.vue'),
-    },      
+    children:[      
     {
       path: 'ExpModule/PythonCompiler',
       component:() => import('../views/ExpModule/PythonCompiler.vue'),

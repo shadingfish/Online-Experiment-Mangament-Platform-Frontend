@@ -15,3 +15,10 @@ export function getInfo() {
       method: 'get'
     })
   }
+
+  export function getAllUsers() {
+    return request({
+      url: '/admin-api/user/getall',
+      method: 'get'
+    })
+  }

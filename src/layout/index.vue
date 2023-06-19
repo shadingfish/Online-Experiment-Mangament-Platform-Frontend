@@ -82,11 +82,22 @@
              <i class="el-icon-cpu white-style"></i>
              <span slot="title">我参与的实验</span>
            </el-menu-item>
-           <el-menu-item index="/Exp/ExpModule/PythonMain" @click="$router.push('/Exp/ExpModule/PythonMain')">
+<!--            <el-menu-item index="/Exp/ExpModule/PythonMain" @click="$router.push('/Exp/ExpModule/PythonMain')">
              <i class="el-icon-cpu white-style" ></i>
              <span slot="title">Python解释器</span>
-           </el-menu-item>
-
+           </el-menu-item> -->
+         <el-submenu index="/Exp/ExpModule/PythonMain" :class="{ 'menu-item-hover': activeMenu === '/Exp/ExpModule/PythonMain' }">
+          <template slot="title">
+            <i class="el-icon-set-up white-style"></i>
+            <span slot="title">Python解释器</span>
+          </template>
+          <el-menu-item index="/Exp/ExpModule/PythonCompiler" class="menu-item-with-background1" @click="$router.push('/Exp/ExpModule/PythonCompiler')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
+            <span slot="title">在线编译运行</span>
+          </el-menu-item>
+          <el-menu-item index="/Exp/ExpModule/PythonSelect" class="menu-item-with-background1" @click="$router.push('/Exp/ExpModule/PythonSelect')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
+            <span slot="title">上传python文件运行</span>
+          </el-menu-item>
+        </el-submenu>
            <!-- <el-submenu index="/rbac/user/userinfo" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
           <template slot="title">
             <i class="el-icon-circle-plus-outline white-style"></i>
@@ -101,17 +112,17 @@
         </el-submenu> -->
 
         <el-submenu index="/rbac/user/userinfo" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
-  <template slot="title">
-    <i class="el-icon-circle-plus-outline white-style"></i>
-    <span slot="title">修改用户信息</span>
-  </template>
-  <el-menu-item index="/rbac/user/userinfo" class="menu-item-with-background1" @click="$router.push('/rbac/user/userinfo')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
-    <span slot="title">修改个人信息</span>
-  </el-menu-item>
-  <el-menu-item index="/rbac/user/ChangePassword" class="menu-item-with-background2" @click="$router.push('/rbac/user/ChangePassword')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/ChangePassword' }">
-    <span slot="title">修改密码</span>
-  </el-menu-item>
-</el-submenu>
+          <template slot="title">
+            <i class="el-icon-circle-plus-outline white-style"></i>
+            <span slot="title">修改用户信息</span>
+          </template>
+          <el-menu-item index="/rbac/user/userinfo" class="menu-item-with-background1" @click="$router.push('/rbac/user/userinfo')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
+            <span slot="title">修改个人信息</span>
+          </el-menu-item>
+          <el-menu-item index="/rbac/user/ChangePassword" class="menu-item-with-background2" @click="$router.push('/rbac/user/ChangePassword')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/ChangePassword' }">
+            <span slot="title">修改密码</span>
+          </el-menu-item>
+        </el-submenu>
 
 
            <el-menu-item index="/rbac/user/about" @click="$router.push('/about')">
