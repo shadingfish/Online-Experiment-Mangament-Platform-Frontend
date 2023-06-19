@@ -5,13 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    sidebar: {
+      collapse: false
+    }
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
+    handleCollapse(state) {
+      state.sidebar.collapse = !state.sidebar.collapse;
+    }
   },
-  actions: {
-  },
-  modules: {
-  }
-})
+  actions: {}
+});
