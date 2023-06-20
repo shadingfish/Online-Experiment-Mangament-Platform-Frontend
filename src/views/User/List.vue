@@ -7,9 +7,6 @@
         <el-table-column prop="org" label="组织"></el-table-column>
         <el-table-column prop="gender" label="性别"></el-table-column>
         <el-table-column fixed="right" label="操作">
-            <template slot-scope="scope">
-              <el-button type="text" size="small" @click="do_exec(scope.$index)">发送实验邀请</el-button>
-            </template>
           </el-table-column>
       </el-table>
     </div>

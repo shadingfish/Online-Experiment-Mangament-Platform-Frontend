@@ -70,10 +70,10 @@
            </el-menu-item>
 
 
-           <el-menu-item index="/rbac/user/List" @click="$router.push('/rbac/user/List')">
+<!--            <el-menu-item index="/rbac/user/List" @click="$router.push('/rbac/user/List')">
              <i class="el-icon-user-solid white-style" ></i>
              <span slot="title">被试者名单</span>
-           </el-menu-item>
+           </el-menu-item> -->
            <el-menu-item index="/experiment/createModule/createMain" @click="$router.push('/experiment/createModule/createMain')">
              <i class="el-icon-cpu white-style" ></i>
              <span slot="title">我创建的实验</span>

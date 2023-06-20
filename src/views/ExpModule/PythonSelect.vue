@@ -40,7 +40,6 @@
   import { revertTimestamps } from "@/util/timeconvert"
   import { updateFileRec } from "@/api/file"
   import { removeFileRec } from "@/api/file"
-  var itemdata=[];
   export default {
     data() {
       return {
@@ -55,10 +54,7 @@
     },
     mounted() {
       getFileRec('python').then((_)=>{
-        this.tableData=formatTimestamps(_.data)
-      })
-      getFileRec('python').then((_)=>{
-        itemdata=_.data
+        this.tableData=_.data
       })
     },
     methods: {
@@ -87,8 +83,7 @@
         this.$message.error('文件上传失败')
       },
       do_exec(data){
-        console.log(itemdata[data])
-        updateFileRec(itemdata[data]).then((_)=>{
+        updateFileRec(this.tableData[data]).then((_)=>{
           console.log(_)
         })
         CLInterface("python3 "+this.tableData[data].directory).then((res)=>{

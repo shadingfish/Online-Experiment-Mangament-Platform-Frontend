@@ -5,6 +5,7 @@
         <el-table-column prop="id" label="实验ID"></el-table-column>
         <el-table-column prop="title" label="实验名称"></el-table-column>
         <el-table-column prop="create_time" label="创建时间"></el-table-column>
+        <el-table-column prop="active_time" label="上次运行时间"></el-table-column>
         <el-table-column label="管理实验">
           <template slot-scope="scope">
             <el-button type="text" @click="manageExperiment(scope.row)">管理实验</el-button>
@@ -18,7 +19,6 @@
   <script>
   import { getExpRec } from '@/api/Exp';
   import { formatTimestamps } from '@/util/timeconvert';
-  import { revertTimestamps } from '@/util/timeconvert';
   export default {
     data() {
       return {
@@ -27,13 +27,12 @@
     },
     mounted(){
       getExpRec().then((_)=>{
-        this.experiments=formatTimestamps(_.data)
+        this.experiments=_.data
       })
     },
     methods: {
       manageExperiment(experiment) {
         // 导航到 manage.vue，并传递实验ID
-        this.experiments=revertTimestamps(this.experiments)
         this.$router.push({ name: 'manage', query: experiment });
       },
       goToCreateExperiment() {

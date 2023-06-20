@@ -47,10 +47,10 @@ const routes = [
   {
     path: '/rbac',
     component: Layout,
-    children: [{
+    children: [/* {
         path: 'user/list',
         component:() => import( '../views/User/List.vue')
-      },
+      }, */
       {
         path: 'user/userinfo',
         component:() => import( '../views/User/userinfo.vue')

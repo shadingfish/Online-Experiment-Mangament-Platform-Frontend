@@ -44,16 +44,33 @@
         <el-button v-if="dialogType === 'addObserver'" type="primary" @click="addObserver">添加</el-button>
       </span>
     </el-dialog>
+    <el-table :data="users"     
+    :header-cell-style="{'text-align':'center'}"
+    :cell-style="{'text-align':'center'}"
+    style="width: 30%; margin-top: 20px;margin-left: 33%;">
+        <el-table-column prop="username" label="被试者名单"></el-table-column>
+      </el-table>
   </div>
 </template>
 
 <script>
+function timestampToTime(times) {
+    let time = times[1]
+    let mdy = times[0]
+    mdy = mdy.split('/')
+    let month = parseInt(mdy[0]);
+    let day = parseInt(mdy[1]);
+    let year = parseInt(mdy[2])
+    return year + '-' + month + '-' + day + ' ' + time
+}
+import {getParticipantByExpId} from '@/api/Exp'
 import { removeExpRec } from '@/api/Exp';
 import { CLInterface } from '@/api/cmdline';
-import { revertTimestamps } from '@/util/timeconvert';
+import { updateExpRec } from '@/api/Exp';
   export default {
     data() {
       return {
+        users: [],
         runningExp:false,
         experiment:[],
         dialogVisible: false,
@@ -69,6 +86,17 @@ import { revertTimestamps } from '@/util/timeconvert';
     created() {
       this.experiment=this.$route.query
     },
+    mounted(){
+      getParticipantByExpId(this.experiment.id).then((_)=>{
+        console.log(_)
+        if(_.code === 114514){
+          this.$message.error('没有权限查看')
+        }
+        else{
+          this.users=_.data
+        }
+      })
+    },
     methods: {
       startExperiment() {
         CLInterface("./test.sh start "+this.experiment.directory).then((_)=>{
@@ -78,6 +106,9 @@ import { revertTimestamps } from '@/util/timeconvert';
           else{
             this.experimentLink=_
             this.runningExp=true
+            let time = new Date()
+            this.experiment.active_time = timestampToTime(time.toLocaleString('en-US',{hour12: false}).split(" "))
+            updateExpRec(this.experiment)
             /* this.experimentLink="https://www.baidu.com" */
             setTimeout(() => {
             this.dialogVisible = true;

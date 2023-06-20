@@ -6,6 +6,16 @@ export function getExpRec() {
       method: 'get',
     })
 }
+export function getParticipantByExpId(ExpId) {
+  const data={
+    ExpId
+  }
+  return request({
+    url: '/experiment/getParticipant',
+    method: 'post',
+    data:data
+  })
+}
 
 export function updateExpRec(fileinfo) {
     const data=fileinfo
@@ -24,3 +34,4 @@ export function removeExpRec(fileinfo) {
       data: data
     })
 }
+
