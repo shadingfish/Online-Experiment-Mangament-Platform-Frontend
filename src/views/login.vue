@@ -81,7 +81,7 @@
         <div class="loginstyle">
         <h2 class="form__title" style="margin-left: 60px;" >用户登录</h2>
         <div class="space2"></div>
-        <el-form ref="form" :model="loginForm" :rules="rules" label-width="100px">
+        <el-form ref="form" :model="loginForm" :rules="ruleslogin" label-width="100px">
           <el-form-item   label="用户名" prop="username">
             <el-input v-model="loginForm.username" placeholder="请输入用户名" style="width: 125%;"></el-input>
           </el-form-item>
@@ -114,7 +114,7 @@
 import backgroundImage from '../assets/login1.jpg';
 import { login } from '@/api/login'
 import { setToken } from '@/util/auth'
-import axios from 'axios'
+import { register } from '@/api/login';
 
 export default {
   mounted() {
@@ -130,7 +130,7 @@ export default {
         username: '',
         password: ''
       },
-      rules: {
+      ruleslogin: {
         username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
       },
@@ -161,8 +161,25 @@ export default {
   },
   
   methods: {
+/*     togglePanel(isRightPanelActive) {
+      this.isRightPanelActive = isRightPanelActive;
+    }, */
     togglePanel(isRightPanelActive) {
       this.isRightPanelActive = isRightPanelActive;
+
+      // If the user is switching to the registration panel, make username and password optional
+      if (isRightPanelActive) {
+        this.ruleslogin = {
+          username: [{ required: false, message: '请输入用户名', trigger: 'blur' }],
+          password: [{ required: false, message: '请输入密码', trigger: 'blur' }]
+        };
+      } else {
+        // If the user is switching back to the login panel, make username and password required again
+        this.ruleslogin = {
+          username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+          password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+        };
+      }
     },
     showHelpModal() {
       this.showModal = true;
@@ -226,8 +243,9 @@ export default {
               // 请求成功
               this.$message({
                 message: '注册成功',
-                type: 'success'
+                type: 'success',               
               })
+              location.reload()
               
             } else {
                 _this.msg = response.data.msg
