@@ -8,14 +8,14 @@
       <el-table-column prop="status" label="状态"></el-table-column>
       <el-table-column prop="experimentLink" label="实验链接"></el-table-column>
     </el-table>
-    <el-button @click="showDialog" class="dialog-button">手动参与实验</el-button>
+<!--     <el-button @click="showDialog" class="dialog-button">手动参与实验</el-button>
     <el-dialog :visible.sync="dialogVisible" title="请输入实验ID" class="experiment-dialog">
       <el-input v-model="inputExperimentId" placeholder="请输入实验ID"></el-input>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="submitExperiment">提交</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 <script>

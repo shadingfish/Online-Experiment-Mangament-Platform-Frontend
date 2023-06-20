@@ -35,3 +35,11 @@ export function removeExpRec(fileinfo) {
     })
 }
 
+export function getExpRecById(userid) {
+  return request({
+    url: '/experiment/delete',
+    method: 'delete',
+    params: userid
+  })
+}
+

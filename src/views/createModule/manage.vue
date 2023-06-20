@@ -4,7 +4,6 @@
     <div class="button-group">
       <el-button type="primary" class="manage-button">一键分发</el-button>
       <el-button type="primary" class="manage-button" :disabled="runningExp" @click="startExperiment">开始实验</el-button>
-      <el-button type="primary" class="manage-button" @click="openNotificationDialog">群发通知</el-button>
       <el-button type="primary" class="manage-button" @click="openAddParticipantDialog">新增被试</el-button>
       <el-button type="primary" class="manage-button" @click="openImportParticipantsDialog">导入被试</el-button>
       <el-button type="primary" class="manage-button" @click="openAddObserverDialog">添加观察者</el-button>
@@ -18,10 +17,6 @@
           实验链接: <a :href="experimentLink" target="_blank">{{ experimentLink }}</a>
         </span>
         <span v-else>实验正在启动中，请稍后...</span>
-      </template>
-      <template v-if="dialogType === 'notification'">
-        <label for="notification-text">请填写群发信息:</label>
-        <textarea id="notification-text" v-model="notificationText"></textarea>
       </template>
       <template v-if="dialogType === 'addParticipant'">
         <label for="participant-id">请填写新增被试ID:</label>
