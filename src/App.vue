@@ -12,20 +12,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #21ad23;
+
 }
 
-.content-box {
-  position: absolute;
-  left: 200px;
-  right: 0;
-  top: 70px;
-  bottom: 0;
-  padding-bottom: 30px;
-  -webkit-transition: left 0.3s ease-in-out;
-  transition: left 0.3s ease-in-out;
-  background: #f0f0f0;
-}
 
 .content {
   width: auto;
