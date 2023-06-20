@@ -1,27 +1,50 @@
 <template>
     <div class="create-container">
       <h2 class="create-title">我创建的实验</h2>
-      <el-table :data="experiments" border class="experiment-table">
-        <el-table-column prop="id" label="实验ID"></el-table-column>
+      <el-table ref="filterTable" :data="experiments" 
+        :header-cell-style="{textAlign: 'center'}" 
+        :cell-style="{ textAlign: 'center' }" 
+        style="width: 100%; 
+        text-align: center"
+      >
+        <el-table-column prop="description" label="实验概述"></el-table-column>
         <el-table-column prop="title" label="实验名称"></el-table-column>
         <el-table-column prop="create_time" label="创建时间"></el-table-column>
         <el-table-column prop="active_time" label="上次运行时间"></el-table-column>
-        <el-table-column label="管理实验">
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="manageExperiment(scope.row)">管理实验</el-button>
+            <el-button type="text" @click=openDialog(scope.$index)>修改名称与概述</el-button>
           </template>
-        </el-table-column>
+        </el-table-column>        
       </el-table>
+          <el-dialog title="修改实验信息" :visible.sync="showDialog" class="thisblack-bgc">
+                <el-input class="subInput" placeholder="请输入新名称" v-model="newTitle" clearable>
+                </el-input>
+                <el-input class="subInput" placeholder="请输入新描述" v-model="newDescription" clearable>
+                </el-input>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="showDialog = false">返回</el-button>
+                    <el-button @click="updateInfo" type="primary">确定</el-button>
+                </div>
+            </el-dialog>
       <el-button class="create-experiment-btn" type="primary" @click="goToCreateExperiment">创建实验</el-button>
+
     </div>
+
   </template>
   
   <script>
   import { getExpRec } from '@/api/Exp';
+  import { updateExpRec } from '@/api/Exp';
   import { formatTimestamps } from '@/util/timeconvert';
   export default {
     data() {
       return {
+        showDialog: false,
+        newTitle: '',
+        newDescription: '',
+        currentIndex: null,
         experiments: []
       };
     },
@@ -31,7 +54,29 @@
       })
     },
     methods: {
+      openDialog(index) {
+          this.currentIndex=index;
+          this.newTitle=this.experiments[this.currentIndex].title;
+          this.newDescription=this.experiments[this.currentIndex].description;
+          this.showDialog = true;
+      },
+      updateInfo() {
+        if (this.currentIndex !== null) {
+          this.experiments[this.currentIndex].title = this.newTitle;
+          this.experiments[this.currentIndex].description = this.newDescription;
+          updateExpRec(this.experiments[this.currentIndex]).then(res=>{
+              if(res.code === 200){
+                this.$message.success("修改信息成功")
+              }
+              else{
+                this.$message.error(res)
+              }
+          }).catch()
+          this.showDialog = false;
+        }
+      },
       manageExperiment(experiment) {
+        console.log(experiment)
         // 导航到 manage.vue，并传递实验ID
         this.$router.push({ name: 'manage', query: experiment });
       },
@@ -45,8 +90,8 @@
   
   <style scoped>
   .create-container {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 80%;
+    margin: auto;
     padding: 20px;
   }
   
@@ -62,6 +107,10 @@
   
   .create-experiment-btn {
     margin-left: 10px;
+    margin-top: 10px;
+  }
+  .subInput {
+    margin: 3px;
   }
   </style>
   

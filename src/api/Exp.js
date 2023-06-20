@@ -6,14 +6,14 @@ export function getExpRec() {
       method: 'get',
     })
 }
-export function getParticipantByExpId(ExpId) {
+export function getParticipantByExpId(expId) {
   const data={
-    ExpId
+    expId: expId
   }
   return request({
     url: '/experiment/getParticipant',
-    method: 'post',
-    data:data
+    method: 'get',
+    params:data
   })
 }
 

@@ -2,9 +2,6 @@
   <div>
     <h2 class="create-title">创建新实验</h2>
     <el-form ref="form" :model="experiment" label-width="100px" class="create-form">
-      <el-form-item label="输入实验名">
-        <el-input v-model="experiment.name"></el-input>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="chooseFile">导入实验文件</el-button>
       </el-form-item>

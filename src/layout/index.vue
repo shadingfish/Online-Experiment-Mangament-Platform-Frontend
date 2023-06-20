@@ -181,6 +181,7 @@
  logout() {
    this.$confirm("确定注销并退出系统吗？", "提示").then(() => {
      removeToken();
+     localStorage.clear()
      console.log("跳转到登录页面");
      this.$router.push({ path: "/login" });
    }).catch(() => {});

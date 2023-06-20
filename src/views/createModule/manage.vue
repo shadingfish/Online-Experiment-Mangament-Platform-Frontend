@@ -8,8 +8,10 @@
       <el-button type="primary" class="manage-button" @click="openAddParticipantDialog">新增被试</el-button>
       <el-button type="primary" class="manage-button" @click="openImportParticipantsDialog">导入被试</el-button>
       <el-button type="primary" class="manage-button" @click="openAddObserverDialog">添加观察者</el-button>
+      <el-button type="warning" class="manage-button" :disabled="stoppingExp" @click="StopExperiment">停止实验</el-button>
       <el-button type="danger" class="manage-button" @click="openDeleteExperimentConfirmation">删除实验</el-button>
     </div>
+    <h3>实验运行中：{{ experimentLink }}</h3>
     <el-dialog :visible.sync="dialogVisible" :title="dialogTitle" class="experiment-dialog">
       <template v-if="dialogType === 'startExperiment'">
         <span v-if="experimentLink">
@@ -71,7 +73,8 @@ import { updateExpRec } from '@/api/Exp';
     data() {
       return {
         users: [],
-        runningExp:false,
+        runningExp: false,
+        stoppingExp: true,
         experiment:[],
         dialogVisible: false,
         dialogTitle: "",
@@ -80,13 +83,12 @@ import { updateExpRec } from '@/api/Exp';
         notificationText: "",
         newParticipantId: "",
         participantFile: null,
-        newObserverId: ""
+        newObserverId: "",
+        port: "",
       };
     },
     created() {
       this.experiment=this.$route.query
-    },
-    mounted(){
       getParticipantByExpId(this.experiment.id).then((_)=>{
         console.log(_)
         if(_.code === 114514){
@@ -97,6 +99,12 @@ import { updateExpRec } from '@/api/Exp';
         }
       })
     },
+    mounted(){
+      this.runningExp=JSON.parse(localStorage.getItem('runningExp'));
+      this.port=localStorage.getItem("runningPort")
+      this.stoppingExp=JSON.parse(localStorage.getItem('stoppingExp'));
+      this.experimentLink=localStorage.getItem("runningURL")
+    },
     methods: {
       startExperiment() {
         CLInterface("./test.sh start "+this.experiment.directory).then((_)=>{
@@ -105,7 +113,13 @@ import { updateExpRec } from '@/api/Exp';
           }
           else{
             this.experimentLink=_
+            this.port=_.split(":")[2]
+            this.stoppingExp=false
             this.runningExp=true
+            localStorage.setItem("runningURL",_)
+            localStorage.setItem('stoppingExp', JSON.stringify(this.stoppingExp));
+            localStorage.setItem('runningExp', JSON.stringify(this.runningExp));
+            localStorage.setItem("runningPort",this.port)
             let time = new Date()
             this.experiment.active_time = timestampToTime(time.toLocaleString('en-US',{hour12: false}).split(" "))
             updateExpRec(this.experiment)
@@ -114,7 +128,7 @@ import { updateExpRec } from '@/api/Exp';
             this.dialogVisible = true;
             this.dialogType = "startExperiment";
             this.dialogTitle = "开始实验";
-        }, 2000);
+        }, 500);
           }
         })
         // Call the backend to start the experiment
@@ -135,6 +149,23 @@ import { updateExpRec } from '@/api/Exp';
         // Placeholder code for demonstration
         // Simulate a delay before obtaining the experiment link
 
+      },
+      StopExperiment(){
+        CLInterface("./test.sh stop "+this.experiment.directory+" "+this.port).then((_)=>{
+          if(_ === "启动服务失败"){
+            this.$message.error(_)
+          }
+          else{
+            this.port="";
+            this.experimentLink="";
+            this.stoppingExp=true;
+            this.runningExp=false;
+            localStorage.setItem('stoppingExp', JSON.stringify(this.stoppingExp));
+            localStorage.setItem('runningExp', JSON.stringify(this.runningExp));
+            localStorage.setItem("runningPort",this.port);
+            localStorage.setItem("runningURL","");
+          }
+        })
       },
       openNotificationDialog() {
         this.dialogVisible = true;

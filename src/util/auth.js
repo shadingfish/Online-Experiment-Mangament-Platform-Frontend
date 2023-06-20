@@ -1,7 +1,5 @@
 
 const AccessTokenKey = 'ACCESS_TOKEN'
-const PyPath = 'PYPATH'
-const ExPath = 'EXPATH'
 
 // ========== Token 相关 ==========
 
@@ -10,16 +8,12 @@ export function getAccessToken() {
 }
 
 
-export function setToken(token,username) {
+export function setToken(token) {
   localStorage.setItem(AccessTokenKey, token)
-  localStorage.setItem(PyPath,username+'/'+'PyPath')
-  localStorage.setItem(ExPath,username+'/'+'ExPath')
 }
 
 export function removeToken() {
   localStorage.removeItem(AccessTokenKey)
-  localStorage.removeItem(PyPath)
-  localStorage.removeItem(ExPath)
 }
 
 // ========== 路径 相关 ==========
