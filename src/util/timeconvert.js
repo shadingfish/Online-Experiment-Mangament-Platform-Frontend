@@ -35,5 +35,5 @@ export function formatTimestamps(tableData) {
       return item;
     });
   }
-  
+
   

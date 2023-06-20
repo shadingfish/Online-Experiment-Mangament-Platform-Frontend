@@ -36,10 +36,9 @@
   <script>
   import { CLInterface } from "@/api/cmdline"
   import { getFileRec } from "@/api/file"
-  import { formatTimestamps } from "@/util/timeconvert"
-  import { revertTimestamps } from "@/util/timeconvert"
   import { updateFileRec } from "@/api/file"
   import { removeFileRec } from "@/api/file"
+  import { isDuplicatedFileName } from "@/util/timeconvert"
   export default {
     data() {
       return {
@@ -72,7 +71,6 @@
            this.$message.error('文件大小不能超过 2MB')
            return false
          }
-        
         return true
       },
       handleSuccess(response, file) {
@@ -92,10 +90,10 @@
         
       },
       do_remove(data){
-        removeFileRec(itemdata[data]).then((_)=>{
+        removeFileRec(this.tableData[data]).then((_)=>{
           console.log(_)
         })
-        CLInterface("rm "+itemdata[data].directory).then((res)=>{
+        CLInterface("rm "+this.tableData[data].directory).then((res)=>{
           this.result=res
           location.reload()
         })
