@@ -6,6 +6,13 @@ export function getExpRec() {
       method: 'get',
     })
 }
+//根据用户ID获得我参与的实验列表
+export function getJoinedExpList() {
+  return request({
+    url: '/distribution/joinedByList',
+    method: 'get',
+  })
+}
 export function getParticipantByExpId(expId) {
   const data={
     expId: expId

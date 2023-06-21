@@ -82,7 +82,7 @@
       manageExperiment(experiment) {
         console.log(experiment)
         // 导航到 manage.vue，并传递实验ID
-        this.$router.push({ name: 'manage', query: experiment, params: { id: experiment.id, name: experiment.name } });
+        this.$router.push({ name: 'manage', query: experiment});
       },
       goToCreateExperiment() {
         // 导航到 createExp.vue
