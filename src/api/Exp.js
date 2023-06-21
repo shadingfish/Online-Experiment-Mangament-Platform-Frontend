@@ -50,3 +50,27 @@ export function getExpRecById(userid) {
   })
 }
 
+//删除实验
+export function deleteExperiment(expId) {
+    return request({
+        url: `/experiment/delete?expId=${expId}`,
+        method: 'post'
+    });
+}
+
+//查看被试名单
+export function getParticipant(expId) {
+    return request({
+        url:`/experiment/getParticipant?expId=${expId}`,
+        method: 'get'
+    })
+}
+
+//删除被试者
+export function deleteParticipant(expId, username) {
+    return request({
+        url:`/experiment/deleteParticipant?expId=${expId}&username=${username}`,
+        method: 'post'
+    })
+}
+
