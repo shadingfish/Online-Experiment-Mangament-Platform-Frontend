@@ -41,14 +41,33 @@
         <el-button v-if="dialogType === 'addObserver'" type="primary" @click="addObserver">添加</el-button>
       </span>
     </el-dialog>
-    <el-table :data="users"     
-    :header-cell-style="{'text-align':'center'}"
-    :cell-style="{'text-align':'center'}"
-    style="width: 30%; margin-top: 20px;margin-left: 33%;">
-        <el-table-column prop="username" label="被试者名单"></el-table-column>
-      </el-table>
+    <el-table v-if="participantList.length > 0" :data="participantList"
+              :header-cell-style="{'text-align': 'center'}"
+              :cell-style="{'text-align': 'center'}"
+              style="width: 30%; margin-top: 20px; margin-left: 33%;">
+      <el-table-column label="序号">
+        <template slot-scope="{ $index }">
+          {{ $index + 1 }}
+        </template>
+      </el-table-column>
+      <el-table-column label="被试名单">
+        <template slot-scope="{ $index }">
+          {{ participantList[$index] }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="{ $index }">
+          <el-button type="danger" size="small" @click="deleteParticipant(participantList[$index])">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div v-else>
+      <p>暂无被试名单。</p>
+    </div>
+
+
   </div>
-</template>
+  </template>
 
 <script>
 function timestampToTime(times) {
@@ -64,10 +83,12 @@ import {getParticipantByExpId} from '@/api/Exp'
 import { removeExpRec } from '@/api/Exp';
 import { CLInterface } from '@/api/cmdline';
 import { updateExpRec } from '@/api/Exp';
+import {getParticipant} from "@/api/Exp";
+import {deleteParticipant} from "@/api/Exp";
   export default {
     data() {
       return {
-        users: [],
+        participantList: [],
         runningExp: false,
         stoppingExp: true,
         experiment:[],
@@ -90,7 +111,7 @@ import { updateExpRec } from '@/api/Exp';
           this.$message.error('没有权限查看')
         }
         else{
-          this.users=_.data
+          this.participantList=_.data
         }
       })
     },
@@ -222,6 +243,16 @@ import { updateExpRec } from '@/api/Exp';
           }
         })
 
+      },
+      deleteParticipant(username){
+        deleteParticipant(this.experiment.id, username).then(res =>{
+          console.log(res)
+          if(res.code == 200){
+            window.location.reload();
+          }else{
+            alert("删除失败")
+          }
+        })
       },
       closeDialog() {
         this.dialogVisible = false;

@@ -1,6 +1,7 @@
 <template>
    <div class="container">
   <div class="participate-main">
+<<<<<<< HEAD
     <h1>我参与的实验</h1>
     <div class="space1"></div>
     <el-table :data="tableData" class="experiment-table">
@@ -19,32 +20,36 @@
       </span>
     </el-dialog> -->
     <div class="space3"></div>
+=======
+    <h2>我参与的实验</h2>
+    <el-table :data="experiments" class="experiment-table">
+      <el-table-column prop="expId" label="实验ID"></el-table-column>
+      <el-table-column prop="expName" label="实验名称"></el-table-column>
+      <el-table-column prop="createTime" label="创建日期"></el-table-column>
+      <el-table-column prop="url" label="实验链接"></el-table-column>
+    </el-table>
+>>>>>>> remotes/upstream/master
   </div>
 </div>
 </template>
 <script>
+import { getJoinedExpList } from '@/api/Exp';
 export default {
   data() {
     return {
-      tableData: [
-        { id: 1, name: "实验1", createdDate: "2023-06-15", status: "已参与", experimentLink: "http://example.com/experiment1" },
-        { id: 2, name: "实验2", createdDate: "2023-06-16", status: "待参与", experimentLink: "http://example.com/experiment2" },
-        { id: 3, name: "实验3", createdDate: "2023-06-17", status: "未开始", experimentLink: "http://example.com/experiment3" }
-      ],
-      dialogVisible: false,
-      inputExperimentId: ""
+      experiments: [], // 添加 experiments 属性，并初始化为空数组
+      // expId: '',
+      // expName: '',
+      // create_time: '',
+      // url: '',
     };
   },
-  methods: {
-    showDialog() {
-      this.dialogVisible = true;
+  mounted(){
+      getJoinedExpList().then((_)=>{
+        this.experiments=_.data
+        console.log(_.data)
+      })
     },
-    submitExperiment() {
-      // 在这里添加提交实验的逻辑
-      console.log("提交实验ID:", this.inputExperimentId);
-      this.dialogVisible = false;
-    }
-  }
 };
 </script>
 <style scoped>

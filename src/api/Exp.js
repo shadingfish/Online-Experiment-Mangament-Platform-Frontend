@@ -6,6 +6,13 @@ export function getExpRec() {
       method: 'get',
     })
 }
+//根据用户ID获得我参与的实验列表
+export function getJoinedExpList() {
+  return request({
+    url: '/distribution/joinedByList',
+    method: 'get',
+  })
+}
 export function getParticipantByExpId(expId) {
   const data={
     expId: expId
@@ -41,5 +48,29 @@ export function getExpRecById(userid) {
     method: 'delete',
     params: userid
   })
+}
+
+//删除实验
+export function deleteExperiment(expId) {
+    return request({
+        url: `/experiment/delete?expId=${expId}`,
+        method: 'post'
+    });
+}
+
+//查看被试名单
+export function getParticipant(expId) {
+    return request({
+        url:`/experiment/getParticipant?expId=${expId}`,
+        method: 'get'
+    })
+}
+
+//删除被试者
+export function deleteParticipant(expId, username) {
+    return request({
+        url:`/experiment/deleteParticipant?expId=${expId}&username=${username}`,
+        method: 'post'
+    })
 }
 
