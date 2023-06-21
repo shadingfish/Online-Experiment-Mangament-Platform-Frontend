@@ -1,6 +1,8 @@
 <template>
-    <div class="create-container">
-      <h2 class="create-title">我创建的实验</h2>
+  <div class="container">
+    <div >
+      <h1>我创建的实验</h1>
+      <div class="space1"></div>
       <el-table ref="filterTable" :data="experiments" 
         :header-cell-style="{textAlign: 'center'}" 
         :cell-style="{ textAlign: 'center' }" 
@@ -28,10 +30,12 @@
                     <el-button @click="updateInfo" type="primary">确定</el-button>
                 </div>
             </el-dialog>
+            <div class="space2"></div>
       <el-button class="create-experiment-btn" type="primary" @click="goToCreateExperiment">创建实验</el-button>
 
     </div>
-
+    <div class="space3"></div>
+  </div>
   </template>
   
   <script>
@@ -92,7 +96,7 @@
   .create-container {
     max-width: 80%;
     margin: auto;
-    padding: 20px;
+
   }
   
   .create-title {
@@ -112,5 +116,27 @@
   .subInput {
     margin: 3px;
   }
+
+  .container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  .container h1 {
+    text-align: center;
+    color: #378ee6;
+  }
+
+  .space1{
+    height: 20px;
+  }
+  .space2{
+    height: 30px;
+  }
+  .space3{
+    height: 15px;
+  }
+  
   </style>
   

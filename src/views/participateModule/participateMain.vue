@@ -1,6 +1,8 @@
 <template>
+   <div class="container">
   <div class="participate-main">
-    <h2>我参与的实验</h2>
+    <h1>我参与的实验</h1>
+    <div class="space1"></div>
     <el-table :data="tableData" class="experiment-table">
       <el-table-column prop="id" label="实验ID"></el-table-column>
       <el-table-column prop="name" label="实验名称"></el-table-column>
@@ -16,7 +18,9 @@
         <el-button type="primary" @click="submitExperiment">提交</el-button>
       </span>
     </el-dialog> -->
+    <div class="space3"></div>
   </div>
+</div>
 </template>
 <script>
 export default {
@@ -59,4 +63,25 @@ export default {
 .experiment-dialog {
   text-align: center;
 }
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  .container h1 {
+    text-align: center;
+    color: #378ee6;
+  }
+
+  .space1{
+    height: 10px;
+  }
+  .space2{
+    height: 8px;
+  }
+  .space3{
+    height: 30px;
+  }
 </style>
