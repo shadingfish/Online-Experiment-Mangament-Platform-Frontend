@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <div class="container">
+      <h1> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspPython文件上传运行
+      </h1>
+      <div class="space2"></div>
       <el-upload
         class="upload-demo"
         action="http://43.142.90.238:28080/api/upload"
@@ -8,8 +11,9 @@
         :on-error="handleError"
         :headers="uploadHeaders"
       >
-        <el-button type="primary">点击上传</el-button>
+        <el-button type="primary" class="titlebutton">点击上传</el-button>
       </el-upload>
+      <div class="space1"></div>
         <el-table ref="filterTable"
                   :data="tableData"
                   style="width: 100%; text-align: center">
@@ -26,8 +30,10 @@
             </template>
           </el-table-column>
         </el-table>
+        <div class="space3"></div>
     <div>
-      <span>执行结果：</span>
+      <span class="resulttitle">———————————————————————————————————执行结果———————————————————————————————————</span>
+      <div class="line"></div>
       <el-input type="textarea" v-model="result" rows="6" readonly></el-input>
     </div>
     </div>
@@ -102,3 +108,42 @@
   }
   </script>
   
+  <style scoped>
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  .container h1 {
+    text-align: center;
+    color: #378ee6;
+  }
+  .titlebutton{
+    margin-left: 1000px;
+  }
+
+  .space1{
+    height: 35px;
+  }
+  .space2{
+    height: 5px;
+  }
+  .space3{
+    height: 50px;
+  }
+
+  .line {
+  width: calc(100% - 5px);
+  height: 2px;
+  background-color: #f2f2f2;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.resulttitle{
+  color: #378ee6;
+  
+  font-weight: 550;
+}
+</style>
