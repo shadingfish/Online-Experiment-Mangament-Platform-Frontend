@@ -66,7 +66,7 @@
          <div class="space3"></div>
            <el-menu-item index="/"  @click="$router.push('/')">
              <i class="el-icon-house white-style" ></i>
-             <span slot="title">返回首页</span>
+             <span slot="title">个人首页</span>
            </el-menu-item>
 
 
@@ -87,10 +87,10 @@
             <i class="el-icon-set-up white-style"></i>
             <span slot="title">Python解释器</span>
           </template>
-          <el-menu-item index="/Exp/ExpModule/PythonCompiler" class="menu-item-with-background1" @click="$router.push('/Exp/ExpModule/PythonCompiler')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
+          <el-menu-item index="/Exp/ExpModule/PythonCompiler" class="menu-item-with-background3" @click="$router.push('/Exp/ExpModule/PythonCompiler')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
             <span slot="title">在线编译运行</span>
           </el-menu-item>
-          <el-menu-item index="/Exp/ExpModule/PythonSelect" class="menu-item-with-background1" @click="$router.push('/Exp/ExpModule/PythonSelect')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
+          <el-menu-item index="/Exp/ExpModule/PythonSelect" class="menu-item-with-background4" @click="$router.push('/Exp/ExpModule/PythonSelect')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
             <span slot="title">上传python文件运行</span>
           </el-menu-item>
         </el-submenu>
@@ -111,7 +111,7 @@
         <el-submenu index="/rbac/user/userinfo" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
   <template slot="title">
     <i class="el-icon-circle-plus-outline white-style" ></i>
-    <span slot="title"  style="margin-right: 12px;color: #fff;" >修改用户信息</span>
+    <span slot="title" style="margin-right: 12px;color: #fff;" >修改用户信息</span>
   </template>
   <el-menu-item index="/rbac/user/userinfo" class="menu-item-with-background1" @click="$router.push('/rbac/user/userinfo')" :class="{ 'menu-item-hover': activeMenu === '/rbac/user/userinfo' }">
     <span slot="title">修改个人信息</span>
@@ -241,9 +241,10 @@
  }
 
  
+
  .side-bar {
    display: flex;
-   height: 100vh;
+   height: 90vh;
  
  
  
@@ -343,26 +344,42 @@
 
 }
 .menu-item-hover {
-  background-color: #A33A3A;
+  background-color: #a93b3b;
   color: blue;
 }
 
 
 .menu-item-with-background1 {
-  background-color: #A33A3A;
+  background-color: #aa3f3f;
 }
 
 .menu-item-with-background1:hover {
-  background-color: #ad3d3d;
+  background-color:  #ae4a4a;
+
 }
 
 .menu-item-with-background2 {
-  background-color: #a23f3f;
+  background-color: #ac3f3f;
 }
 
 .menu-item-with-background2:hover {
   background-color: #ae4a4a;
 }
 
+.menu-item-with-background3 {
+  background-color: #962e2e;
+}
+
+.menu-item-with-background3:hover {
+  background-color: #ab3636;
+}
+
+.menu-item-with-background4 {
+  background-color: #973636;
+}
+
+.menu-item-with-background4:hover {
+  background-color: #a54040;
+}
 
    </style>
