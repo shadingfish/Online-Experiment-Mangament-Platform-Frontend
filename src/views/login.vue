@@ -13,7 +13,7 @@
     <div v-if="showModal" class="modal">
   <div class="modal-content">
     <span class="close" @click="closeModal">&times;</span>
-    <p>有问题请联系 111111@163.com</p>
+    <p>有问题请联系otreeplat_service@163.com</p>
   </div>
 </div>
 
@@ -263,8 +263,7 @@ export default {
 
 <style scoped>
 
-
-.body {
+ .body {
  align-items: center;
  background-color: var(--white);
   background: url("https://res.cloudinary.com/dci1eujqw/image/upload/v1616769558/Codepen/waldemar-brandt-aThdSdgx0YM-unsplash_cnq4sb.jpg");
@@ -276,7 +275,21 @@ export default {
  height: 98vh;
  place-items: center;
   position: relative;
-}
+} 
+/* 
+.body {
+  align-items: center;
+  background-color: var(--white);
+  background-image: url("../assets/1.png");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: grid;
+  height: 98vh;
+  place-items: center;
+  position: relative;
+} */
 .title {
   position: absolute;
   top: 1.7cm;
