@@ -1,10 +1,11 @@
 <template>
-  <div>
-    <h2><div>Python解释器
-      <el-button size="mini" icon="el-icon-document-copy" @click="copyCode">复制代码</el-button>
-      <el-button size="mini" icon="el-icon-document-delete" @click="clearCode">清除</el-button>
+  <div class="container">
+    <h1><div><span class="title">Python解释器</span>
+
+      <el-button size="mini" icon="el-icon-document-copy" @click="copyCode" class="titlebutton1">复制代码</el-button>
+      <el-button size="mini" icon="el-icon-document-delete" @click="clearCode" class="titlebutton2">清除</el-button>
     </div>
-    </h2>
+    </h1>
     <div ref="editor" class="editor" style="text-align: left;"></div>
     <el-button type="primary" style="margin-bottom: 10px;" @click="saveToLocal">保存至本地</el-button>
     <el-button type="primary" @click="runCode">运行代码</el-button>
@@ -103,5 +104,27 @@
     border: 3px solid #ddd;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   }
+
+  .container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  .container h1 {
+    text-align: center;
+    color: #378ee6;
+  }
+
+
+ .titlebutton2{
+margin-left: 10px;
+ } 
+ .titlebutton1{
+margin-left: 215px;
+} 
+.title{
+  margin-left: 390px;
+}
   </style>
   
