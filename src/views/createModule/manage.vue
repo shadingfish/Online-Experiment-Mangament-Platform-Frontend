@@ -24,6 +24,18 @@
       </template>
       <template v-if="dialogType === 'importParticipants'">
         <label for="participant-file">选择要导入的文件:</label>
+        <el-upload
+            ref="upload"
+            :action="uploadUrl"
+            :before-upload="beforeUpload"
+            :on-success="handleUploadSuccess"
+            :headers="{
+               Authorization: tokenForUpload,
+            }"
+            :data="uploadData"
+        >
+          <el-button size="small" type="primary" @click="uploadFile">导入被试者</el-button>
+        </el-upload>
         <input type="file" id="participant-file" ref="participantFile" @change="handleParticipantFileChange" />
       </template>
       <template v-if="dialogType === 'addObserver'">
@@ -85,13 +97,18 @@ import { CLInterface } from '@/api/cmdline';
 import { updateExpRec } from '@/api/Exp';
 import {getParticipant} from "@/api/Exp";
 import {deleteParticipant} from "@/api/Exp";
+import {getAccessToken} from "@/util/auth";
+import  {BASEURL} from "@/util/request"
   export default {
     data() {
       return {
+        expIdForUpload: 6,
+        tokenForUpload: 'Bearer ' + getAccessToken(),
+        uploadUrl: BASEURL + '/experiment/uploadParticipant',
         participantList: [],
         runningExp: false,
         stoppingExp: true,
-        experiment:[],
+        experiment: [],
         dialogVisible: false,
         dialogTitle: "",
         dialogType: "",
@@ -103,48 +120,53 @@ import {deleteParticipant} from "@/api/Exp";
         port: "",
       };
     },
+    computed: {
+      uploadData() {
+        return {
+          expId: this.expIdForUpload,
+        };
+      },
+    },
     created() {
-      this.experiment=this.$route.query
-      getParticipantByExpId(this.experiment.id).then((_)=>{
+      this.experiment = this.$route.query
+      getParticipantByExpId(this.experiment.id).then((_) => {
         console.log(_)
-        if(_.code === 114514){
+        if (_.code === 114514) {
           this.$message.error('没有权限查看')
-        }
-        else{
-          this.participantList=_.data
+        } else {
+          this.participantList = _.data
         }
       })
     },
-    mounted(){
-      this.runningExp=JSON.parse(localStorage.getItem('runningExp'));
-      this.port=localStorage.getItem("runningPort")
-      this.stoppingExp=JSON.parse(localStorage.getItem('stoppingExp'));
-      this.experimentLink=localStorage.getItem("runningURL")
+    mounted() {
+      this.runningExp = JSON.parse(localStorage.getItem('runningExp'));
+      this.port = localStorage.getItem("runningPort")
+      this.stoppingExp = JSON.parse(localStorage.getItem('stoppingExp'));
+      this.experimentLink = localStorage.getItem("runningURL")
     },
     methods: {
       startExperiment() {
-        CLInterface("./test.sh start "+this.experiment.directory).then((_)=>{
-          if(_ === "启动服务失败"){
+        CLInterface("./test.sh start " + this.experiment.directory).then((_) => {
+          if (_ === "启动服务失败") {
             this.$message.error(_)
-          }
-          else{
-            this.experimentLink=_
-            this.port=_.split(":")[2]
-            this.stoppingExp=false
-            this.runningExp=true
-            localStorage.setItem("runningURL",_)
+          } else {
+            this.experimentLink = _
+            this.port = _.split(":")[2]
+            this.stoppingExp = false
+            this.runningExp = true
+            localStorage.setItem("runningURL", _)
             localStorage.setItem('stoppingExp', JSON.stringify(this.stoppingExp));
             localStorage.setItem('runningExp', JSON.stringify(this.runningExp));
-            localStorage.setItem("runningPort",this.port)
+            localStorage.setItem("runningPort", this.port)
             let time = new Date()
-            this.experiment.active_time = timestampToTime(time.toLocaleString('en-US',{hour12: false}).split(" "))
+            this.experiment.active_time = timestampToTime(time.toLocaleString('en-US', {hour12: false}).split(" "))
             updateExpRec(this.experiment)
             /* this.experimentLink="https://www.baidu.com" */
             setTimeout(() => {
-            this.dialogVisible = true;
-            this.dialogType = "startExperiment";
-            this.dialogTitle = "开始实验";
-        }, 500);
+              this.dialogVisible = true;
+              this.dialogType = "startExperiment";
+              this.dialogTitle = "开始实验";
+            }, 500);
           }
         })
         // Call the backend to start the experiment
@@ -166,20 +188,19 @@ import {deleteParticipant} from "@/api/Exp";
         // Simulate a delay before obtaining the experiment link
 
       },
-      StopExperiment(){
-        CLInterface("./test.sh stop "+this.experiment.directory+" "+this.port).then((_)=>{
-          if(_ === "启动服务失败"){
+      StopExperiment() {
+        CLInterface("./test.sh stop " + this.experiment.directory + " " + this.port).then((_) => {
+          if (_ === "启动服务失败") {
             this.$message.error(_)
-          }
-          else{
-            this.port="";
-            this.experimentLink="";
-            this.stoppingExp=true;
-            this.runningExp=false;
+          } else {
+            this.port = "";
+            this.experimentLink = "";
+            this.stoppingExp = true;
+            this.runningExp = false;
             localStorage.setItem('stoppingExp', JSON.stringify(this.stoppingExp));
             localStorage.setItem('runningExp', JSON.stringify(this.runningExp));
-            localStorage.setItem("runningPort",this.port);
-            localStorage.setItem("runningURL","");
+            localStorage.setItem("runningPort", this.port);
+            localStorage.setItem("runningURL", "");
           }
         })
       },
@@ -204,6 +225,35 @@ import {deleteParticipant} from "@/api/Exp";
         // Add the new participant using the this.newParticipantId value
         console.log("Adding participant:", this.newParticipantId);
         this.closeDialog();
+      },
+      uploadFile() {
+        console.log('上传中......')
+        this.$refs.upload.submit(); // Trigger the file upload with formData
+
+      },
+      beforeUpload(file) {
+        // Validate the file before uploading
+        const allowedFileTypes = ['text/plain', 'text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+        let isallowed = allowedFileTypes.includes(file.type);
+        const isLessThan2MB = file.size / 1024 / 1024 < 2;
+
+        if (!isallowed) {
+          this.$message.error('Only CSV/xls/xlsx/txt files are allowed.');
+        }
+
+        if (!isLessThan2MB) {
+          this.$message.error('File size should be less than 2MB.');
+        }
+
+        return isallowed && isLessThan2MB;
+      },
+      handleUploadSuccess(response) {
+        // Handle the response from the server after successful upload
+        if (response.code === 200) {
+          this.$message.success('成功导入被试者。');
+        } else {
+          this.$message.error(response.message);
+        }
       },
       openImportParticipantsDialog() {
         this.dialogVisible = true;
@@ -233,10 +283,10 @@ import {deleteParticipant} from "@/api/Exp";
         this.dialogTitle = "删除实验";
       },
       deleteExperiment() {
-        CLInterface("rm -r "+this.experiment.directory)
+        CLInterface("rm -r " + this.experiment.directory)
         console.log(this.experiment)
-        removeExpRec(this.experiment).then((_)=>{
-          if(_.code === 200){
+        removeExpRec(this.experiment).then((_) => {
+          if (_.code === 200) {
             this.$message.success("删除成功")
             this.closeDialog();
             this.$router.push("/experiment/createModule/createMain")
@@ -244,12 +294,12 @@ import {deleteParticipant} from "@/api/Exp";
         })
 
       },
-      deleteParticipant(username){
-        deleteParticipant(this.experiment.id, username).then(res =>{
+      deleteParticipant(username) {
+        deleteParticipant(this.experiment.id, username).then(res => {
           console.log(res)
-          if(res.code == 200){
+          if (res.code == 200) {
             window.location.reload();
-          }else{
+          } else {
             alert("删除失败")
           }
         })
@@ -258,9 +308,9 @@ import {deleteParticipant} from "@/api/Exp";
         this.dialogVisible = false;
         this.dialogType = "";
         this.dialogTitle = "";
-      }
+      },
     }
-  };
+  }
 </script>
 
 

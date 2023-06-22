@@ -7,8 +7,8 @@
          <i class="el-icon-s-fold" v-show="!isSidebarCollapsed" ></i>
          <i class="el-icon-s-unfold" v-show="isSidebarCollapsed" ></i>
         </div>
- 
-     
+
+
         <div class="header-right">
         <div class="headeruser" >
           <el-avatar class="user-avator" :size="35" :src="imgurl"  style="margin-right: 5px;"/>
@@ -23,7 +23,7 @@
 						<el-dropdown-menu>
 							<el-dropdown-item command="changeInfo" >修改信息</el-dropdown-item>
 					<el-dropdown-item divided command="changePassword">修改密码</el-dropdown-item>
-              <el-dropdown-item divided command="logout">退出登录</el-dropdown-item> 
+              <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
 				</el-dropdown>
@@ -31,11 +31,11 @@
           </div>
       </div>
       </div>
- 
+
        <!-- <div class="header-right">
      <div class="header-user-con">
-  
- 
+
+
     <el-avatar class="user-avator" :size="30" :src="doge" />
        <el-dropdown class="user-name" trigger="click" @command="handleCommand">
          <span class="el-dropdown-link">
@@ -54,7 +54,7 @@
 
 
        <div class="side-bar" :class="{ 'collapsed': isSidebarCollapsed }">
- 
+
          <el-menu
            class="el-menu-vertical-demo"
            :collapse="isSidebarCollapsed"
@@ -131,7 +131,7 @@
              <span slot="title">退出</span>
            </el-menu-item>
          </el-menu>
- 
+
          <div class="main-content">
            <router-view/>
          </div>
@@ -139,7 +139,7 @@
 
     </div>
    </template>
-   
+
    <script>
  import { removeToken } from '@/util/auth'; // 导入removeToken函数
  import router from '@/router'; // 导入router对象
@@ -189,7 +189,7 @@
      },
    };
    </script>
-   
+
    <style scoped>
   .header {
    position: relative;
@@ -202,14 +202,14 @@
    background-repeat: no-repeat;
    background-size: 100% 100%;
  }
- 
+
  .header .logo {
    float: left;
    width: 250px;
    line-height: 70px;
    font-weight: bold;
  }
- 
+
  .collapse-btn {
 	display: flex;
 	justify-content: center;
@@ -236,150 +236,151 @@
 	cursor: pointer;
  }
 
- .backgroundcolor{
-  background-color: #A33A3A;
- }
 
- 
 
  .side-bar {
    display: flex;
    height: 90vh;
- 
- 
- 
- }
- 
- .el-menu-vertical-demo .el-menu-item,
- .el-menu-vertical-demo .el-submenu,
- .el-menu-vertical-demo .el-submenu__title {
-   text-align: left;
-   font-weight: bold;
-   color: #fff;
- }
- 
- .collapsed .el-menu-item .el-icon {
-   margin-right: 0;
-   color: #fff;
- }
- 
- .main-content {
-   flex: 1;
-   padding: 20px;
-   overflow-y: auto;
- }
- 
- .white-style{
-   color: #fff;
- }
- .space3{
-   height:15px;
- }
- .header-dropdown {
-   float: right;
-   margin-right: 20px;
  }
 
- .header-right {
-	float: right;
-	padding-right: 50px;
-}
-.headeruser {
-	display: flex;
-	height: 70px;
-	align-items: center;
-}
+   .el-menu-vertical-demo .el-menu-item,
+   .el-menu-vertical-demo .el-submenu,
+   .el-menu-vertical-demo .el-submenu__title {
+     text-align: left;
+     font-weight: bold;
+     color: #fff;
+   }
 
-/* .headeruser {
+   .collapsed .el-menu-item .el-icon {
+     margin-right: 0;
+     color: #fff;
+   }
+
+   .main-content {
+     flex: 1;
+     padding: 20px;
+     overflow-y: auto;
+   }
+
+   .white-style {
+     color: #fff;
+   }
+
+   .space3 {
+     height: 15px;
+   }
+
+   .header-dropdown {
+     float: right;
+     margin-right: 20px;
+   }
+
+   .header-right {
+     float: right;
+     padding-right: 50px;
+   }
+
+   .headeruser {
+     display: flex;
+     height: 70px;
+     align-items: center;
+   }
+
+   /* .headeruser {
   display: flex;
-  height: 70px; 
+  height: 70px;
   align-items: center;
   justify-content: flex-end;
-  margin-right: 30px; 
+  margin-right: 30px;
 } */
-.btn-fullscreen {
-	transform: rotate(45deg);
-	margin-right: 5px;
-	font-size: 24px;
-}
 
-.user-name {
-	margin-left: 10px;
-  font-weight: 600;
-  font-size: 17px;
-}
+   .btn-fullscreen {
+     transform: rotate(45deg);
+     margin-right: 5px;
+     font-size: 24px;
+   }
 
-.user-avator {
-	margin-left: 20px;
-}
-.el-dropdown-link {
-	color: #fff;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-}
-.el-dropdown-menu__item {
-	text-align: center;
-}
+   .user-name {
+     margin-left: 10px;
+     font-weight: 600;
+     font-size: 17px;
+   }
 
+   .user-avator {
+     margin-left: 20px;
+   }
 
-.el-submenu__title {
-  width: 100%;
-}
-.el-menu-item:hover {
-  background-color: #A33A3A;
+   .el-dropdown-link {
+     color: #fff;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+   }
+
+   .el-dropdown-menu__item {
+     text-align: center;
+   }
 
 
-}
-.el-submenu:hover{
-  background-color: #A33A3A;
-}
+   .el-submenu__title {
+     width: 100%;
+   }
 
-.el-menu-item {
-  transition: background-color 0.3s, color 0.3s;
-} 
-
-.menu-item-hover .el-submenu__title {
-  background-color: #A33A3A;
-
-}
-.menu-item-hover {
-  background-color: #a93b3b;
-  color: blue;
-}
+   .el-menu-item:hover {
+     background-color: #A33A3A;
 
 
-.menu-item-with-background1 {
-  background-color: #aa3f3f;
-}
+   }
 
-.menu-item-with-background1:hover {
-  background-color:  #ae4a4a;
+   .el-submenu:hover {
+     background-color: #A33A3A;
+   }
 
-}
+   .el-menu-item {
+     transition: background-color 0.3s, color 0.3s;
+   }
 
-.menu-item-with-background2 {
-  background-color: #ac3f3f;
-}
+   .menu-item-hover .el-submenu__title {
+     background-color: #A33A3A;
 
-.menu-item-with-background2:hover {
-  background-color: #ae4a4a;
-}
+   }
 
-.menu-item-with-background3 {
-  background-color: #962e2e;
-}
+   .menu-item-hover {
+     background-color: #a93b3b;
+     color: blue;
+   }
 
-.menu-item-with-background3:hover {
-  background-color: #ab3636;
-}
 
-.menu-item-with-background4 {
-  background-color: #973636;
-}
+   .menu-item-with-background1 {
+     background-color: #aa3f3f;
+   }
 
-.menu-item-with-background4:hover {
-  background-color: #a54040;
-}
+   .menu-item-with-background1:hover {
+     background-color: #ae4a4a;
 
+   }
+
+   .menu-item-with-background2 {
+     background-color: #ac3f3f;
+   }
+
+   .menu-item-with-background2:hover {
+     background-color: #ae4a4a;
+   }
+
+   .menu-item-with-background3 {
+     background-color: #962e2e;
+   }
+
+   .menu-item-with-background3:hover {
+     background-color: #ab3636;
+   }
+
+   .menu-item-with-background4 {
+     background-color: #973636;
+   }
+
+   .menu-item-with-background4:hover {
+     background-color: #a54040;
+   }
    </style>
