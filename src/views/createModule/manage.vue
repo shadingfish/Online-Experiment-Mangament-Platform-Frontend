@@ -96,11 +96,11 @@ function timestampToTime(times) {
     let year = parseInt(mdy[2])
     return year + '-' + month + '-' + day + ' ' + time
 }
+
 import {getParticipantByExpId} from '@/api/Exp'
 import { removeExpRec } from '@/api/Exp';
 import { CLInterface } from '@/api/cmdline';
 import { updateExpRec } from '@/api/Exp';
-import {getParticipant} from "@/api/Exp";
 import {deleteParticipant} from "@/api/Exp";
 import {getAccessToken} from "@/util/auth";
 import  {BASEURL} from "@/util/request";
@@ -110,7 +110,7 @@ import {execImportFile} from "@/api/Exp";
   export default {
     data() {
       return {
-        expIdForUpload: 6,
+        expIdForUpload: this.experiment.expId,
         tokenForUpload: 'Bearer ' + getAccessToken(),
         uploadUrl: BASEURL + '/experiment/uploadParticipant',
         participantList: [],
