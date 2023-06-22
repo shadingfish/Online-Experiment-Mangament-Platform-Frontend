@@ -2,7 +2,7 @@
   <div class="manage-container">
     <h2>管理实验</h2>
     <div class="button-group">
-      <el-button type="primary" class="manage-button">一键分发</el-button>
+      <el-button type="primary" class="manage-button" @click="openQuickDistribution">一键分发</el-button>
       <el-button type="primary" class="manage-button" :disabled="runningExp" @click="startExperiment">开始实验</el-button>
       <el-button type="primary" class="manage-button" @click="openAddParticipantDialog">新增被试</el-button>
       <el-button type="primary" class="manage-button" @click="openImportParticipantsDialog">导入被试</el-button>
@@ -45,12 +45,17 @@
       <template v-if="dialogType === 'deleteExperimentConfirmation'">
         确定要删除实验吗？此操作将删除所有文件。
       </template>
+      <template v-if="dialogType === 'quickDistribution'">
+        <label for="exp-url">请输入实验url:</label>
+        <input type="text" id="exp-url" v-model="expURL" />
+      </template>
       <span slot="footer" class="dialog-footer">
         <el-button v-if="dialogType === 'deleteExperimentConfirmation'" type="danger" @click="deleteExperiment">确认</el-button>
         <el-button @click="closeDialog">关闭</el-button>
         <el-button v-if="dialogType === 'notification'" type="primary" @click="sendNotification">发送</el-button>
         <el-button v-if="dialogType === 'addParticipant'" type="primary" @click="addParticipant">添加</el-button>
         <el-button v-if="dialogType === 'addObserver'" type="primary" @click="addObserver">添加</el-button>
+        <el-button v-if="dialogType === 'quickDistribution'" type="primary" @click="quickDistribution">分发</el-button>
       </span>
     </el-dialog>
     <el-table v-if="participantList.length > 0" :data="participantList"
@@ -98,7 +103,10 @@ import { updateExpRec } from '@/api/Exp';
 import {getParticipant} from "@/api/Exp";
 import {deleteParticipant} from "@/api/Exp";
 import {getAccessToken} from "@/util/auth";
-import  {BASEURL} from "@/util/request"
+import  {BASEURL} from "@/util/request";
+import {execAddParticipant} from "@/api/Exp";
+import {execQuickDistribution} from "@/api/Exp";
+import {execImportFile} from "@/api/Exp";
   export default {
     data() {
       return {
@@ -118,6 +126,7 @@ import  {BASEURL} from "@/util/request"
         participantFile: null,
         newObserverId: "",
         port: "",
+        expURL: "",
       };
     },
     computed: {
@@ -223,7 +232,18 @@ import  {BASEURL} from "@/util/request"
       },
       addParticipant() {
         // Add the new participant using the this.newParticipantId value
-        console.log("Adding participant:", this.newParticipantId);
+        execAddParticipant(this.experiment.id, this.newParticipantId).then(res=>{
+          console.log("Adding participant:", this.newParticipantId);
+          if (res.code===200){
+            console.log("success!")
+            this.$message.success('添加成功');
+          }else{
+            console.log("wrong")
+            this.$message.error(res.message)
+            this.loading = false
+          };
+          this.refresh();
+        })
         this.closeDialog();
       },
       uploadFile() {
@@ -263,7 +283,23 @@ import  {BASEURL} from "@/util/request"
       },
       handleParticipantFileChange(event) {
         this.participantFile = event.target.files[0];
-        console.log("Selected participant file:", this.participantFile);
+
+        const formData = new FormData();
+        formData.append('expId', this.experiment.id);
+        formData.append('file', this.participantFile);
+
+        execImportFile(formData).then(res=>{
+          console.log("Selected participant file:", this.participantFile);
+          if (res.code===200){
+            console.log("success!")
+            this.$message.success('添加成功');
+          }else{
+            console.log("wrong")
+            this.$message.error(res.message)
+            this.loading = false
+          };
+          this.refresh();
+        })
       },
       openAddObserverDialog() {
         this.dialogVisible = true;
@@ -309,6 +345,36 @@ import  {BASEURL} from "@/util/request"
         this.dialogType = "";
         this.dialogTitle = "";
       },
+      openQuickDistribution(){
+        this.dialogVisible = true;
+        this.dialogType = "quickDistribution";
+        this.dialogTitle = "一键分发";
+      },
+      quickDistribution(){
+        execQuickDistribution(this.experiment.id, this.expURL).then(res=>{
+          console.log("Adding url:", this.expURL);
+          if (res.code===200){
+            console.log("success!")
+            this.$message.success('分发成功');
+          }else{
+            console.log("wrong")
+            this.$message.error(res.message)
+            this.loading = false
+          }
+        })
+        this.closeDialog();
+      },
+      refresh(){
+        getParticipantByExpId(this.experiment.id).then((_)=>{
+          console.log(_)
+          if(_.code === 114514){
+            this.$message.error('没有权限查看')
+          }
+          else{
+            this.participantList=_.data
+          }
+        })
+      }
     }
   }
 </script>
