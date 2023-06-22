@@ -23,7 +23,7 @@
         <input type="text" id="participant-id" v-model="newParticipantId" />
       </template>
       <template v-if="dialogType === 'importParticipants'">
-        <label for="participant-file">选择要导入的文件:</label>
+        <span>仅支持上传.xlsx, .xls文件。请将参试者的用户名放在表格的第一列。</span>
         <el-upload
             ref="upload"
             :action="uploadUrl"
@@ -34,7 +34,7 @@
             }"
             :data="uploadData"
         >
-          <el-button size="small" type="primary" @click="uploadFile">导入被试者</el-button>
+          <el-button size="small" type="primary" @click="uploadFile">导入被试者表格</el-button>
         </el-upload>
       </template>
       <template v-if="dialogType === 'addObserver'">
@@ -251,12 +251,12 @@ import {execImportFile} from "@/api/Exp";
       },
       beforeUpload(file) {
         // Validate the file before uploading
-        const allowedFileTypes = ['text/plain', 'text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+        const allowedFileTypes = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
         let isallowed = allowedFileTypes.includes(file.type);
         const isLessThan2MB = file.size / 1024 / 1024 < 2;
 
         if (!isallowed) {
-          this.$message.error('Only CSV/xls/xlsx/txt files are allowed.');
+          this.$message.error('Only xls/xlsx files are allowed.');
         }
 
         if (!isLessThan2MB) {
