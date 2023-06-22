@@ -74,3 +74,40 @@ export function deleteParticipant(expId, username) {
     })
 }
 
+//新增被试者
+export function execAddParticipant(expId, userId) {
+  const data ={
+    expId,
+    userId
+  }
+  return request({
+      url:`/experiment/addParticipant?expId=${expId}&userId=${userId}`,
+      method: 'post',
+      data: data
+  })
+}
+
+//执行一键分发
+export function execQuickDistribution(expId, url) {
+  const data ={
+    expId,
+    url
+  }
+  return request({
+      url:`/distribution/experimentByUrl`,
+      method: 'post',
+      data: data
+  })
+}
+
+//导入被试者文件
+export function execImportFile(formData) {
+  return request({
+      url:`/experiment/uploadParticipant`,
+      method: 'post',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+  });
+}

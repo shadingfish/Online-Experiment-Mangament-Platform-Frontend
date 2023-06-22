@@ -1,26 +1,6 @@
 <template>
    <div class="container">
   <div class="participate-main">
-<<<<<<< HEAD
-    <h1>我参与的实验</h1>
-    <div class="space1"></div>
-    <el-table :data="tableData" class="experiment-table">
-      <el-table-column prop="id" label="实验ID"></el-table-column>
-      <el-table-column prop="name" label="实验名称"></el-table-column>
-      <el-table-column prop="createdDate" label="创建日期"></el-table-column>
-      <el-table-column prop="status" label="状态"></el-table-column>
-      <el-table-column prop="experimentLink" label="实验链接"></el-table-column>
-    </el-table>
-<!--     <el-button @click="showDialog" class="dialog-button">手动参与实验</el-button>
-    <el-dialog :visible.sync="dialogVisible" title="请输入实验ID" class="experiment-dialog">
-      <el-input v-model="inputExperimentId" placeholder="请输入实验ID"></el-input>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitExperiment">提交</el-button>
-      </span>
-    </el-dialog> -->
-    <div class="space3"></div>
-=======
     <h2>我参与的实验</h2>
     <el-table :data="experiments" class="experiment-table">
       <el-table-column prop="expId" label="实验ID"></el-table-column>
@@ -28,7 +8,6 @@
       <el-table-column prop="createTime" label="创建日期"></el-table-column>
       <el-table-column prop="url" label="实验链接"></el-table-column>
     </el-table>
->>>>>>> remotes/upstream/master
   </div>
 </div>
 </template>
