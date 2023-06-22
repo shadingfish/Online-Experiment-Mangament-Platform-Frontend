@@ -98,7 +98,7 @@ const routes = [
     children:[{
       path: 'ExpModule/PythonMain',
       component:() => import( '../views/ExpModule/PythonMain.vue'),
-    },      
+    },
     {
       path: 'ExpModule/PythonCompiler',
       component:() => import('../views/ExpModule/PythonCompiler.vue'),

@@ -7,8 +7,8 @@
          <i class="el-icon-s-fold" v-show="!isSidebarCollapsed" ></i>
          <i class="el-icon-s-unfold" v-show="isSidebarCollapsed" ></i>
         </div>
- 
-     
+
+
         <div class="header-right">
         <div class="headeruser" >
           <el-avatar class="user-avator" :size="35" :src="imgurl"  style="margin-right: 5px;"/>
@@ -23,7 +23,7 @@
 						<el-dropdown-menu>
 							<el-dropdown-item command="changeInfo">修改信息</el-dropdown-item>
 					<el-dropdown-item divided command="changePassword">修改密码</el-dropdown-item>
-              <el-dropdown-item divided command="logout">退出登录</el-dropdown-item> 
+              <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
 				</el-dropdown>
@@ -31,11 +31,11 @@
           </div>
       </div>
       </div>
- 
+
        <!-- <div class="header-right">
      <div class="header-user-con">
-  
- 
+
+
     <el-avatar class="user-avator" :size="30" :src="doge" />
        <el-dropdown class="user-name" trigger="click" @command="handleCommand">
          <span class="el-dropdown-link">
@@ -54,7 +54,7 @@
 
 
        <div class="side-bar" :class="{ 'collapsed': isSidebarCollapsed }">
- 
+
          <el-menu
            class="el-menu-vertical-demo"
            :collapse="isSidebarCollapsed"
@@ -123,7 +123,7 @@
              <span slot="title">退出</span>
            </el-menu-item>
          </el-menu>
- 
+
          <div class="main-content">
            <router-view/>
          </div>
@@ -131,7 +131,7 @@
 
     </div>
    </template>
-   
+
    <script>
  import { removeToken } from '@/util/auth'; // 导入removeToken函数
  import router from '@/router'; // 导入router对象
@@ -180,7 +180,7 @@
      },
    };
    </script>
-   
+
    <style scoped>
   .header {
    position: relative;
@@ -193,14 +193,14 @@
    background-repeat: no-repeat;
    background-size: 100% 100%;
  }
- 
+
  .header .logo {
    float: left;
    width: 250px;
    line-height: 70px;
    font-weight: bold;
  }
- 
+
  .collapse-btn {
 	display: flex;
 	justify-content: center;
@@ -231,15 +231,15 @@
   background-color: #A33A3A;
  }
 
- 
+
  .side-bar {
    display: flex;
    height: 100vh;
- 
- 
- 
+
+
+
  }
- 
+
  .el-menu-vertical-demo .el-menu-item,
  .el-menu-vertical-demo .el-submenu,
  .el-menu-vertical-demo .el-submenu__title {
@@ -247,18 +247,18 @@
    font-weight: bold;
    color: #fff;
  }
- 
+
  .collapsed .el-menu-item .el-icon {
    margin-right: 0;
    color: #fff;
  }
- 
+
  .main-content {
    flex: 1;
    padding: 20px;
    overflow-y: auto;
  }
- 
+
  .white-style{
    color: #fff;
  }
@@ -282,10 +282,10 @@
 
 /* .headeruser {
   display: flex;
-  height: 70px; 
+  height: 70px;
   align-items: center;
   justify-content: flex-end;
-  margin-right: 30px; 
+  margin-right: 30px;
 } */
 .btn-fullscreen {
 	transform: rotate(45deg);
@@ -329,7 +329,7 @@
 
 .el-menu-item {
   transition: background-color 0.3s, color 0.3s;
-} 
+}
 
 .menu-item-hover .el-submenu__title {
   background-color: #A33A3A;
