@@ -36,7 +36,6 @@
         >
           <el-button size="small" type="primary" @click="uploadFile">导入被试者</el-button>
         </el-upload>
-        <input type="file" id="participant-file" ref="participantFile" @change="handleParticipantFileChange" />
       </template>
       <template v-if="dialogType === 'addObserver'">
         <label for="observer-id">请填写新增观察者ID:</label>
@@ -110,9 +109,9 @@ import {execImportFile} from "@/api/Exp";
   export default {
     data() {
       return {
-        expIdForUpload: this.experiment.expId,
         tokenForUpload: 'Bearer ' + getAccessToken(),
         uploadUrl: BASEURL + '/experiment/uploadParticipant',
+
         participantList: [],
         runningExp: false,
         stoppingExp: true,
@@ -132,7 +131,7 @@ import {execImportFile} from "@/api/Exp";
     computed: {
       uploadData() {
         return {
-          expId: this.expIdForUpload,
+          expId: this.experiment.id,
         };
       },
     },
@@ -248,8 +247,7 @@ import {execImportFile} from "@/api/Exp";
       },
       uploadFile() {
         console.log('上传中......')
-        this.$refs.upload.submit(); // Trigger the file upload with formData
-
+        this.$refs.upload.submit();
       },
       beforeUpload(file) {
         // Validate the file before uploading
@@ -271,8 +269,18 @@ import {execImportFile} from "@/api/Exp";
         // Handle the response from the server after successful upload
         if (response.code === 200) {
           this.$message.success('成功导入被试者。');
+          getParticipantByExpId(this.experiment.id).then((_) => {
+            console.log(_)
+            if (_.code === 114514) {
+              this.$message.error('没有权限查看')
+            } else {
+              this.participantList = _.data
+            }
+          })
         } else {
           this.$message.error(response.message);
+          console.log(response.message);
+          return Promise.reject(response.message);
         }
       },
       openImportParticipantsDialog() {
